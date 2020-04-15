@@ -8,6 +8,9 @@ use pocketmine\math\Vector3;
 use pocketmine\level\Position;
 use pocketmine\Player;
 
+use function min;
+use function max;
+
 /**
  * 選択座標
  *

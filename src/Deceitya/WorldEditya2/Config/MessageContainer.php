@@ -7,6 +7,10 @@ namespace Deceitya\WorldEditya2\Config;
 use Deceitya\WorldEditya2\Main;
 use pocketmine\utils\TextFormat;
 
+use function parse_ini_file;
+use function count;
+use function str_replace;
+
 /**
  * メッセージを格納
  *

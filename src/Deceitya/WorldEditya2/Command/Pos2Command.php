@@ -13,6 +13,8 @@ use pocketmine\level\Position;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
 
+use function count;
+
 /**
  * pos2を設定するコマンド
  *
