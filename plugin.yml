@@ -1,0 +1,19 @@
+name: WorldEditya2
+main: Deceitya\WorldEditya2\Main
+version: 1.0.0
+api: 3.11.7
+load: POSTWORLD
+author: deceitya
+description: わ～るどえでぃちゃ
+website: https://github.com/deceitya/WorldEditya2
+
+permissions:
+  worldeditya.command.pos1:
+    description: Allows the admin to run the pos1 command
+    default: true
+  worldeditya.command.pos2:
+    description: Allows the admin to run the pos2 command
+    default: true
+  worldeditya.command.set:
+    description: Allows the admin to run the set command
+    default: true
