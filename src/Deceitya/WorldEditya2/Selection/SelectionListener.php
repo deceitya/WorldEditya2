@@ -9,6 +9,11 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\item\ItemIds;
 
+/**
+ * pos1とpos2を設定
+ *
+ * @author deceitya
+ */
 class SelectionListener implements Listener
 {
     public function setFirstPosition(PlayerInteractEvent $event)
