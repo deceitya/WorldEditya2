@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Deceitya\WorldEditya2\Command;
 
-use CortexPE\Commando\args\RawStringArgument;
-use CortexPE\Commando\BaseCommand;
+use Deceitya\WorldEditya2\libs\CortexPE\Commando\args\RawStringArgument;
+use Deceitya\WorldEditya2\libs\CortexPE\Commando\BaseCommand;
 use Deceitya\WorldEditya2\Config\MessageContainer;
 use Deceitya\WorldEditya2\Selection\Selection;
 use Deceitya\WorldEditya2\Task\SetTask;
