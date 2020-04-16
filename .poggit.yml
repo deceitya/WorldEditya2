@@ -1,0 +1,8 @@
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/deceitya/WorldEditya2
+build-by-default: true
+branches:
+- master
+projects:
+  WorldEditya2:
+    path: ""
+...
