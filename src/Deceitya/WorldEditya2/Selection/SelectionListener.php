@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Deceitya\WorldEditya2\Selection;
 
+use Deceitya\WorldEditya2\Main;
 use pocketmine\event\Listener;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\player\PlayerInteractEvent;
-use pocketmine\item\ItemIds;
 
 /**
  * pos1とpos2を設定
@@ -16,6 +16,14 @@ use pocketmine\item\ItemIds;
  */
 class SelectionListener implements Listener
 {
+    /** @var int */
+    private $item;
+
+    public function __construct()
+    {
+        $this->item = Main::getInstance()->getWEConfing()->getSelectionItemId();
+    }
+
     public function setFirstPosition(PlayerInteractEvent $event)
     {
         if ($event->getAction() !== PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
@@ -23,7 +31,7 @@ class SelectionListener implements Listener
         }
 
         $player = $event->getPlayer();
-        if ($player->getInventory()->getItemInHand()->getId() === ItemIds::GOLD_PICKAXE && $player->hasPermission('worldeditya2.command.pos1')) {
+        if ($player->getInventory()->getItemInHand()->getId() === $this->item && $player->hasPermission('worldeditya2.command.pos1')) {
             $event->setCancelled();
 
             $block = $event->getBlock()->floor();
@@ -34,7 +42,7 @@ class SelectionListener implements Listener
     public function setSecondPosition(BlockBreakEvent $event)
     {
         $player = $event->getPlayer();
-        if ($player->getInventory()->getItemInHand()->getId() === ItemIds::GOLD_PICKAXE && $player->hasPermission('worldeditya2.command.pos2')) {
+        if ($player->getInventory()->getItemInHand()->getId() === $this->item && $player->hasPermission('worldeditya2.command.pos2')) {
             $event->setCancelled();
 
             $block = $event->getBlock()->floor();

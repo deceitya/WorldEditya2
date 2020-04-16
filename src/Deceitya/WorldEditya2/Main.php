@@ -8,6 +8,7 @@ use Deceitya\WorldEditya2\Command\Pos1Command;
 use Deceitya\WorldEditya2\Command\Pos2Command;
 use Deceitya\WorldEditya2\Command\SetCommand;
 use Deceitya\WorldEditya2\Config\MessageContainer;
+use Deceitya\WorldEditya2\Config\WorldedityaConfig;
 use Deceitya\WorldEditya2\Selection\SelectionListener;
 use pocketmine\plugin\PluginBase;
 
@@ -26,6 +27,9 @@ class Main extends PluginBase
         return self::$instance;
     }
 
+    /** @var WorldEdityaConfig */
+    private $config;
+
     public function onLoad()
     {
         self::$instance = $this;
@@ -33,6 +37,9 @@ class Main extends PluginBase
 
     public function onEnable()
     {
+        $this->config = new WorldedityaConfig;
+        $this->config->reload();
+
         MessageContainer::init();
         $this->getServer()->getPluginManager()->registerEvents(new SelectionListener, $this);
         $this->getServer()->getCommandMap()->registerAll('WorldEditya2', [
@@ -45,5 +52,10 @@ class Main extends PluginBase
     public function getResourcesFolder(): string
     {
         return "{$this->getFile()}resources/";
+    }
+
+    public function getWEConfing(): WorldedityaConfig
+    {
+        return $this->config;
     }
 }
