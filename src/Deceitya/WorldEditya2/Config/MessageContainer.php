@@ -39,8 +39,8 @@ class MessageContainer
             return $key;
         }
 
-        $search = [];
-        $replace = [];
+        $search = ['@n'];
+        $replace = ["\n"];
         $count = count($params);
         for ($i = 0; $i < $count; $i++) {
             $search[] = "%{$i}";
