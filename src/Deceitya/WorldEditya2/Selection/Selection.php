@@ -87,6 +87,26 @@ class Selection
     }
 
     /**
+     * 始点
+     *
+     * @return Position
+     */
+    public function getStartPosition(): Position
+    {
+        return Position::fromObject(self::minComponents($this->pos1, $this->pos2), $this->pos1->level);
+    }
+
+    /**
+     * 終点
+     *
+     * @return Position
+     */
+    public function getEndPosition(): Position
+    {
+        return Position::fromObject(self::maxComponents($this->pos1, $this->pos2), $this->pos1->level);
+    }
+
+    /**
      * 選択範囲のブロック数
      *
      * @return integer

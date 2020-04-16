@@ -6,6 +6,7 @@ namespace Deceitya\WorldEditya2;
 
 use Deceitya\WorldEditya2\Command\Pos1Command;
 use Deceitya\WorldEditya2\Command\Pos2Command;
+use Deceitya\WorldEditya2\Command\SetCommand;
 use Deceitya\WorldEditya2\Config\MessageContainer;
 use Deceitya\WorldEditya2\Selection\SelectionListener;
 use pocketmine\plugin\PluginBase;
@@ -36,7 +37,8 @@ class Main extends PluginBase
         $this->getServer()->getPluginManager()->registerEvents(new SelectionListener, $this);
         $this->getServer()->getCommandMap()->registerAll('WorldEditya2', [
             new Pos1Command('/pos1', MessageContainer::get('command.pos1.description')),
-            new Pos2Command('/pos2', MessageContainer::get('command.pos2.description'))
+            new Pos2Command('/pos2', MessageContainer::get('command.pos2.description')),
+            new SetCommand('/set', MessageContainer::get('command.set.description'))
         ]);
     }
 

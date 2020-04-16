@@ -1,6 +1,6 @@
 name: WorldEditya2
 main: Deceitya\WorldEditya2\Main
-version: 1.0.0
+version: 0.1.0
 api: 3.11.7
 load: POSTWORLD
 author: deceitya
