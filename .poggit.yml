@@ -5,4 +5,7 @@ branches:
 projects:
   WorldEditya2:
     path: ""
+    libs:
+    - src: CortexPE/Commando/Commando
+      version: ^0.6.0
 ...
