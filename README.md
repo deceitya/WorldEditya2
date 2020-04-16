@@ -1,5 +1,6 @@
 # わ～るどえでぃちゃ2
-非同期で処理します。
+~~非同期で処理します。~~  
+大方は非同期で処理します。
 
 [ダウンロード](https://poggit.pmmp.io/ci/deceitya/WorldEditya2/WorldEditya2)
 
