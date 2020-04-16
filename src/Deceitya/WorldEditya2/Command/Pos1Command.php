@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Deceitya\WorldEditya2\Command;
 
-use Deceitya\WorldEditya2\libs\CortexPE\Commando\args\IntegerArgument;
-use Deceitya\WorldEditya2\libs\CortexPE\Commando\BaseCommand;
+use CortexPE\Commando\args\IntegerArgument;
+use CortexPE\Commando\BaseCommand;
 use Deceitya\WorldEditya2\Config\MessageContainer;
 use Deceitya\WorldEditya2\Selection\Selection;
 use pocketmine\command\CommandSender;
