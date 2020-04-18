@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Deceitya\WorldEditya2\Task;
 
-use Deceitya\WorldEditya2\Config\MessageContainer;
 use pocketmine\level\format\Chunk;
 use pocketmine\level\Level;
 use pocketmine\level\Position;
@@ -27,6 +26,8 @@ class UndoTask extends AsyncTask
     private $end;
     /** @var int */
     private $level;
+    /** @var callable|null */
+    private $onDone;
 
     /**
      * @param Chunk[] $currents
@@ -34,7 +35,7 @@ class UndoTask extends AsyncTask
      * @param Position $start
      * @param Position $end
      */
-    public function __construct(array $currents, array $caches, Position $start, Position $end)
+    public function __construct(array $currents, array $caches, Position $start, Position $end, ?callable $onDone = null)
     {
         $this->currents = array_map(function (Chunk $chunk) {
             return $chunk->fastSerialize();
@@ -45,6 +46,7 @@ class UndoTask extends AsyncTask
         $this->start = [$start->x, $start->y, $start->z];
         $this->end = [$end->x, $end->y, $end->z];
         $this->level = $start->level->getId();
+        $this->onDone = $onDone;
     }
 
     public function onRun()
@@ -90,6 +92,9 @@ class UndoTask extends AsyncTask
             $level->setChunk($chunk->getX(), $chunk->getZ(), $chunk);
         }
 
-        $server->broadcastMessage(MessageContainer::get('command.undo.complete', (string) $this->getTaskId()));
+        if ($this->onDone !== null) {
+            $onDone = $this->onDone;
+            $onDone($this);
+        }
     }
 }

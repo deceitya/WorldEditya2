@@ -10,6 +10,7 @@ use Deceitya\WorldEditya2\Config\MessageContainer;
 use Deceitya\WorldEditya2\Task\UndoTask;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
+use pocketmine\Server;
 
 /**
  * 戻すコマンド
@@ -44,7 +45,15 @@ class UndoCommand extends BaseCommand
             $chunks[] = $level->getChunk($chunk->getX(), $chunk->getZ());
         }
 
-        $task = new UndoTask($chunks, $cache->getChunks(), $cache->getStartPosition(), $cache->getEndPosition());
+        $task = new UndoTask(
+            $chunks,
+            $cache->getChunks(),
+            $cache->getStartPosition(),
+            $cache->getEndPosition(),
+            function (UndoTask $task) {
+                Server::getInstance()->broadcastMessage(MessageContainer::get('command.undo.complete', (string) $task->getTaskId()));
+            }
+        );
         $sender->getServer()->getAsyncPool()->submitTask($task);
 
         $sender->getServer()->broadcastMessage(MessageContainer::get(

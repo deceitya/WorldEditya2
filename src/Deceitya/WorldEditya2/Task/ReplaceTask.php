@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Deceitya\WorldEditya2\Task;
 
-use Deceitya\WorldEditya2\Config\MessageContainer;
 use pocketmine\block\Block;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\level\format\Chunk;
