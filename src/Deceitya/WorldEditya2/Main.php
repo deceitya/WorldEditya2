@@ -7,6 +7,7 @@ namespace Deceitya\WorldEditya2;
 use Deceitya\WorldEditya2\Cache\CacheManager;
 use Deceitya\WorldEditya2\Command\Pos1Command;
 use Deceitya\WorldEditya2\Command\Pos2Command;
+use Deceitya\WorldEditya2\Command\ReplaceCommand;
 use Deceitya\WorldEditya2\Command\SetCommand;
 use Deceitya\WorldEditya2\Command\UndoCommand;
 use Deceitya\WorldEditya2\Config\MessageContainer;
@@ -47,6 +48,7 @@ class Main extends PluginBase
         $this->getServer()->getCommandMap()->registerAll('WorldEditya2', [
             new Pos1Command('/pos1', MessageContainer::get('command.pos1.description')),
             new Pos2Command('/pos2', MessageContainer::get('command.pos2.description')),
+            new ReplaceCommand('/replace', MessageContainer::get('command.replace.description')),
             new SetCommand('/set', MessageContainer::get('command.set.description')),
             new UndoCommand('/undo', MessageContainer::get('command.undo.description'))
         ]);

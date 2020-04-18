@@ -1,6 +1,6 @@
 name: WorldEditya2
 main: Deceitya\WorldEditya2\Main
-version: 0.1.1
+version: 1.0.0
 api: 3.11.7
 load: POSTWORLD
 author: deceitya
@@ -19,4 +19,7 @@ permissions:
     default: op
   worldeditya2.command.undo:
     description: Allows the admin to run the undo command
+    default: op
+  worldeditya2.command.replace:
+    description: Allows the admin to run the replace command
     default: op
