@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deceitya\WorldEditya2\Command;
 
+use InvalidArgumentException;
 use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\BaseCommand;
 use Deceitya\WorldEditya2\Cache\CacheManager;
@@ -11,8 +12,10 @@ use Deceitya\WorldEditya2\Cache\WECache;
 use Deceitya\WorldEditya2\Config\MessageContainer;
 use Deceitya\WorldEditya2\Selection\Selection;
 use Deceitya\WorldEditya2\Task\SetTask;
+use pocketmine\block\BlockFactory;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
+use pocketmine\utils\TextFormat;
 
 use function explode;
 
@@ -40,7 +43,7 @@ class SetCommand extends BaseCommand
 
         $selection = Selection::getSelection($sender);
         if ($selection->canExecute()) {
-            $block = explode(':', $args['block']);
+            $blockData = explode(':', $args['block']);
             $start = $selection->getStartPosition();
             $end = $selection->getEndPosition();
             $chunks = [];
@@ -52,7 +55,16 @@ class SetCommand extends BaseCommand
                 }
             }
 
-            $task = new SetTask($chunks, $start, $end, (int) $block[0], (int) (isset($block[1]) ? $block[1] : 0));
+            $block = null;
+            try {
+                $block = BlockFactory::get((int) $blockData[0], (int) (isset($blockData[1]) ? $blockData[1] : 0));
+            } catch (InvalidArgumentException $e) {
+                $sender->sendMessage(TextFormat::RED . $e->getMessage());
+
+                return;
+            }
+
+            $task = new SetTask($chunks, $start, $end, $block);
             $sender->getServer()->getAsyncPool()->submitTask($task);
 
             CacheManager::getInstance()->add($sender->getName(), new WECache($chunks, $start, $end));
