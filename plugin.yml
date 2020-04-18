@@ -8,12 +8,15 @@ description: わ～るどえでぃちゃ
 website: https://github.com/deceitya/WorldEditya2
 
 permissions:
-  worldeditya.command.pos1:
+  worldeditya2.command.pos1:
     description: Allows the admin to run the pos1 command
-    default: true
-  worldeditya.command.pos2:
+    default: op
+  worldeditya2.command.pos2:
     description: Allows the admin to run the pos2 command
-    default: true
-  worldeditya.command.set:
+    default: op
+  worldeditya2.command.set:
     description: Allows the admin to run the set command
-    default: true
+    default: op
+  worldeditya2.command.undo:
+    description: Allows the admin to run the undo command
+    default: op

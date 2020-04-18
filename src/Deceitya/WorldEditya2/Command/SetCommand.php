@@ -6,11 +6,15 @@ namespace Deceitya\WorldEditya2\Command;
 
 use CortexPE\Commando\args\RawStringArgument;
 use CortexPE\Commando\BaseCommand;
+use Deceitya\WorldEditya2\Cache\CacheManager;
+use Deceitya\WorldEditya2\Cache\WECache;
 use Deceitya\WorldEditya2\Config\MessageContainer;
 use Deceitya\WorldEditya2\Selection\Selection;
 use Deceitya\WorldEditya2\Task\SetTask;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
+
+use function explode;
 
 /**
  * //setコマンド
@@ -50,6 +54,8 @@ class SetCommand extends BaseCommand
 
             $task = new SetTask($chunks, $start, $end, (int) $block[0], (int) (isset($block[1]) ? $block[1] : 0));
             $sender->getServer()->getAsyncPool()->submitTask($task);
+
+            CacheManager::getInstance()->add($sender->getName(), new WECache($chunks, $start, $end));
 
             $sender->getServer()->broadcastMessage(MessageContainer::get(
                 'command.set.start',
