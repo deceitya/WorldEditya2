@@ -17,13 +17,13 @@ use function unserialize;
 
 class UndoTask extends AsyncTask
 {
-    /** @var string */
+    /** @var array */
     private $currents;
-    /** @var string */
+    /** @var array */
     private $caches;
-    /** @var string */
+    /** @var array */
     private $start;
-    /** @var string */
+    /** @var array */
     private $end;
     /** @var int */
     private $level;
@@ -36,41 +36,39 @@ class UndoTask extends AsyncTask
      */
     public function __construct(array $currents, array $caches, Position $start, Position $end)
     {
-        $this->currents = serialize(array_map(function (Chunk $chunk) {
+        $this->currents = array_map(function (Chunk $chunk) {
             return $chunk->fastSerialize();
-        }, $currents));
-        $this->caches = serialize(array_map(function (Chunk $chunk) {
+        }, $currents);
+        $this->caches = array_map(function (Chunk $chunk) {
             return $chunk->fastSerialize();
-        }, $caches));
-        $this->start = serialize([$start->x, $start->y, $start->z]);
-        $this->end = serialize([$end->x, $end->y, $end->z]);
+        }, $caches);
+        $this->start = [$start->x, $start->y, $start->z];
+        $this->end = [$end->x, $end->y, $end->z];
         $this->level = $start->level->getId();
     }
 
     public function onRun()
     {
-        $start = unserialize($this->start);
-        $end = unserialize($this->end);
         $currents = [];
         $caches = [];
-        foreach (unserialize($this->currents) as $chunkData) {
+        foreach ($this->currents as $chunkData) {
             $chunk = Chunk::fastDeserialize($chunkData);
             $currents[Level::chunkHash($chunk->getX(), $chunk->getZ())] = $chunk;
         }
-        foreach (unserialize($this->caches) as $chunkData) {
+        foreach ($this->caches as $chunkData) {
             $chunk = Chunk::fastDeserialize($chunkData);
             $caches[Level::chunkHash($chunk->getX(), $chunk->getZ())] = $chunk;
         }
 
-        for ($x = $start[0]; $x <= $end[0]; $x++) {
+        for ($x = $this->start[0]; $x <= $this->end[0]; $x++) {
             $chunkX = $x >> 4;
             $blockX = $x % 16;
-            for ($z = $start[2]; $z <= $end[2]; $z++) {
+            for ($z = $this->start[2]; $z <= $this->end[2]; $z++) {
                 $hash = Level::chunkHash($chunkX, $z >> 4);
                 $current = $currents[$hash];
                 $cache = $caches[$hash];
                 $blockZ = $z % 16;
-                for ($y = $start[1]; $y <= $end[1]; $y++) {
+                for ($y = $this->start[1]; $y <= $this->end[1]; $y++) {
                     $current->setBlock(
                         $blockX,
                         $y,
