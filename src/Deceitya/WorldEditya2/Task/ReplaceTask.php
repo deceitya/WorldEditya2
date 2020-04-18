@@ -34,6 +34,8 @@ class ReplaceTask extends AsyncTask
     private $replace;
     /** @var int */
     private $level;
+    /** @var callable|null */
+    private $onDone;
 
     /**
      * @param Chunk[] $chunks
@@ -41,8 +43,9 @@ class ReplaceTask extends AsyncTask
      * @param Position $end
      * @param int $id
      * @param int $meta
+     * @param callable|null $onDone
      */
-    public function __construct(array $chunks, Position $start, Position $end, Block $search, Block $replace)
+    public function __construct(array $chunks, Position $start, Position $end, Block $search, Block $replace, ?callable $onDone = null)
     {
         $this->chunks = array_map(function (Chunk $chunk) {
             return $chunk->fastSerialize();
@@ -52,6 +55,7 @@ class ReplaceTask extends AsyncTask
         $this->search = [$search->getId(), $search->getDamage()];
         $this->replace = [$replace->getId(), $replace->getDamage()];
         $this->level = $start->level->getId();
+        $this->onDone = $onDone;
     }
 
     public function onRun()
@@ -86,6 +90,9 @@ class ReplaceTask extends AsyncTask
             $level->setChunk($chunk->getX(), $chunk->getZ(), $chunk);
         }
 
-        $server->broadcastMessage(MessageContainer::get('command.replace.complete', (string) $this->getTaskId()));
+        if ($this->onDone !== null) {
+            $onDone = $this->onDone;
+            $onDone($this);
+        }
     }
 }

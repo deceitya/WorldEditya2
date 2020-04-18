@@ -15,6 +15,7 @@ use Deceitya\WorldEditya2\Task\ReplaceTask;
 use pocketmine\block\BlockFactory;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
+use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 
 use function explode;
@@ -75,7 +76,16 @@ class ReplaceCommand extends BaseCommand
                 return;
             }
 
-            $task = new ReplaceTask($chunks, $start, $end, $search, $replace);
+            $task = new ReplaceTask(
+                $chunks,
+                $start,
+                $end,
+                $search,
+                $replace,
+                function (ReplaceTask $task) {
+                    Server::getInstance()->broadcastMessage(MessageContainer::get('command.replace.complete', (string) $task->getTaskId()));
+                }
+            );
             $sender->getServer()->getAsyncPool()->submitTask($task);
 
             CacheManager::getInstance()->add($sender->getName(), new WECache($chunks, $start, $end));

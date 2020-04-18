@@ -15,6 +15,7 @@ use Deceitya\WorldEditya2\Task\SetTask;
 use pocketmine\block\BlockFactory;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
+use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 
 use function explode;
@@ -71,7 +72,15 @@ class SetCommand extends BaseCommand
                 return;
             }
 
-            $task = new SetTask($chunks, $start, $end, $block);
+            $task = new SetTask(
+                $chunks,
+                $start,
+                $end,
+                $block,
+                function (SetTask $task) {
+                    Server::getInstance()->broadcastMessage(MessageContainer::get('command.set.complete', (string) $task->getTaskId()));
+                }
+            );
             $sender->getServer()->getAsyncPool()->submitTask($task);
 
             CacheManager::getInstance()->add($sender->getName(), new WECache($chunks, $start, $end));

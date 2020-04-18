@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Deceitya\WorldEditya2\Task;
 
-use Deceitya\WorldEditya2\Config\MessageContainer;
 use pocketmine\block\Block;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\level\format\Chunk;
@@ -34,6 +33,8 @@ class SetTask extends AsyncTask
     private $meta;
     /** @var int */
     private $level;
+    /** @var callable|null */
+    private $onDone;
 
     /**
      * @param Chunk[] $chunks
@@ -42,7 +43,7 @@ class SetTask extends AsyncTask
      * @param int $id
      * @param int $meta
      */
-    public function __construct(array $chunks, Position $start, Position $end, Block $block)
+    public function __construct(array $chunks, Position $start, Position $end, Block $block, ?callable $onDone = null)
     {
         $this->chunks = array_map(function (Chunk $chunk) {
             return $chunk->fastSerialize();
@@ -52,6 +53,7 @@ class SetTask extends AsyncTask
         $this->id = $block->getId();
         $this->meta = $block->getDamage();
         $this->level = $start->level->getId();
+        $this->onDone = $onDone;
     }
 
     public function onRun()
@@ -84,6 +86,9 @@ class SetTask extends AsyncTask
             $level->setChunk($chunk->getX(), $chunk->getZ(), $chunk);
         }
 
-        $server->broadcastMessage(MessageContainer::get('command.set.complete', (string) $this->getTaskId()));
+        if ($this->onDone !== null) {
+            $onDone = $this->onDone;
+            $onDone($this);
+        }
     }
 }
