@@ -51,7 +51,14 @@ class SetCommand extends BaseCommand
             $maxz = $end->z >> 4;
             for ($x = $start->x >> 4; $x <= $maxx; $x++) {
                 for ($z = $start->z >> 4; $z <= $maxz; $z++) {
-                    $chunks[] = $sender->level->getChunk($x, $z);
+                    $chunk = $sender->level->getChunk($x, $z);
+                    if ($chunk !== null) {
+                        $chunks[] = $chunk;
+                    } else {
+                        $sender->sendMessage(MessageContainer::get('chunk.not_loaded'));
+
+                        return;
+                    }
                 }
             }
 
