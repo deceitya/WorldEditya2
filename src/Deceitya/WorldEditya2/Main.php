@@ -11,7 +11,7 @@ use Deceitya\WorldEditya2\Command\ReplaceCommand;
 use Deceitya\WorldEditya2\Command\SetCommand;
 use Deceitya\WorldEditya2\Command\UndoCommand;
 use Deceitya\WorldEditya2\Config\MessageContainer;
-use Deceitya\WorldEditya2\Config\WorldedityaConfig;
+use Deceitya\WorldEditya2\Config\WorldEdityaConfig;
 use Deceitya\WorldEditya2\Selection\SelectionListener;
 use pocketmine\plugin\PluginBase;
 
@@ -40,7 +40,7 @@ class Main extends PluginBase
 
     public function onEnable()
     {
-        $this->config = new WorldedityaConfig;
+        $this->config = new WorldEdityaConfig;
         $this->config->reload();
 
         MessageContainer::init();

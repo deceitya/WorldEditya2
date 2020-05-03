@@ -11,7 +11,7 @@ use Deceitya\WorldEditya2\Main;
  *
  * @author deceitya
  */
-class WorldedityaConfig
+class WorldEdityaConfig
 {
     /** @var int */
     private $selectionItemId;
